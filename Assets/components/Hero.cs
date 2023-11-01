@@ -4,33 +4,45 @@ using UnityEngine;
 
 public class Hero : MonoBehaviour
 {
+    public float maxHealth = 100;
+    public float currentHealth = 100;
+
+    public float armour = 0;
 
     public int speed = 1;
     public float viewRadius = 20f;
     public float attackRadius = 2f;
+
     public bool isHero = true;
 
-    public GameObject attackTarget;
     public Animator heroAnimator;
+    
+
+    private GameObject attackTarget;
+    private Hero script_enemy;
+    
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        // set animation speed attack
+        // but it doesn't work with variable idk why
+        heroAnimator.SetFloat("AttackSpeed", 1f);
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         if (Game.stage != 1) {
             return;
         }
         if (attackTarget == null) {
             //  Go to door
+            // TODO: rotate to door
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
             
             heroAnimator.SetInteger("State", 1);
-            heroAnimator.SetBool("isSeeEnemy", false);
             
             string enemyTag = "Enemy";
             if (!isHero) {
@@ -50,6 +62,7 @@ public class Hero : MonoBehaviour
             if (distanceSqr < attackRadius) {
                 // attack
                 heroAnimator.SetInteger("State", 2);
+
             } else {
                 // go to enemy
                 Vector3 targetPosition = attackTarget.transform.position;
@@ -63,10 +76,33 @@ public class Hero : MonoBehaviour
                 transform.rotation = Quaternion.LookRotation(newDirection);
 
                 heroAnimator.SetInteger("State", 1);
-                heroAnimator.SetBool("isSeeEnemy", true);
             }
             
         }
+    }
+
+    public void damage(float hp) {
+        currentHealth = currentHealth - hp;
+        if (currentHealth < 0) {
+            this.die();
+        }
+    }
+
+    public void heal(float hp) {
+        currentHealth = Mathf.Min(currentHealth + hp, maxHealth);
+    }
+
+    private void die() {
+        Destroy(gameObject);
+    }
+
+    public void EventAttack() {
+        script_enemy = attackTarget.GetComponent<Hero>();
+        script_enemy.damage(75);
+    }
+
+    public void EventAttackFinish() {
+
     }
 
     public void EndEvent() {

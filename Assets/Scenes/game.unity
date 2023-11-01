@@ -3849,6 +3849,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5227197455497699611, guid: e34f1a755c929654592fc6b5fecd9398, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 4a89960ae18158743b1a71338e3f7196, type: 2}
     - target: {fileID: 5798600051423604518, guid: e34f1a755c929654592fc6b5fecd9398, type: 3}
       propertyPath: m_Name
       value: skeleton Variant
@@ -5244,11 +5248,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25828107d311513429b25fd86ed56dc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 100
+  armour: 0
+  attackSpeed: 0.5
   speed: 1
   viewRadius: 20
   attackRadius: 2
   isHero: 0
-  attackTarget: {fileID: 0}
   heroAnimator: {fileID: 703920525}
 --- !u!95 &703920525 stripped
 Animator:
